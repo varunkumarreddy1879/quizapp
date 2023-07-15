@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuestionService {
@@ -29,5 +30,17 @@ public class QuestionService {
     public String addQuestion(question question) {
         qr.save(question);
         return "Succesfully added";
+    }
+
+    public String deleteQuestionById(int id) {
+        Optional<question> optionalQuestion =qr.findById(id);
+
+        if(optionalQuestion.isEmpty()){
+            return "Invalid Id : "+id+".";
+        }
+        question question=optionalQuestion.get();
+
+        qr.deleteById(id);
+        return "question with id : "+id+" deleted succesfully.";
     }
 }
